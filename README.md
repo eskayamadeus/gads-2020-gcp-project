@@ -56,6 +56,6 @@
 
 ## Translations
 
-[1. Google Cloud Fundamentals: Getting Started with Compute Engine](translation1.md)
+[1. Google Cloud Fundamentals: Getting Started with Compute Engine](translations/translation1.md)
 
-[2. Google Cloud Fundamentals: Getting Started with Cloud Storage and Cloud SQL](translation2.md)
+[2. Google Cloud Fundamentals: Getting Started with Cloud Storage and Cloud SQL](translations/translation2.md)
