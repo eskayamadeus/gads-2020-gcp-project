@@ -123,3 +123,51 @@ When you load the page, you should see the words `Database connection failed: ..
 		```
 		Database connection succeeded.
 		```
+#### Configure an application in a Compute Engine instance to use a Cloud Storage object
+1. List out all the buckets in our project using the `gsutil ls` command. You should see all your buckets as a list like this:
+	```
+	gs://BUCKET_NAME1/
+	gs://BUCKET_NAME2/
+	gs://BUCKET_NAME3/
+	...
+	```
+2. Then select the bucket that is named after your GCP project. For example if your project is listed as `qwiklabs-gcp-0005e186fa559a09`, then your bucket will be listed as `gs://qwiklabs-gcp-0005e186fa559a09`, so you can select it and list the contents by doing:
+```gsutil ls -r gs://qwiklabs-gcp-0005e186fa559a09/```
+and your bucket will contain the **my-excellent-blog.png** file in the response as follows:
+	```
+	gs://qwiklabs-gcp-0005e186fa559a09/my-excellent-blog.png
+	```
+3. Now obtain the public link for the bucket via the following command, and copy it for future reference:
+	```
+	gsutil ls -L -b gs://qwiklabs-gcp-0005e186fa559a09
+	```
+4. SSH back into the bloghost VM instance with `gcloud compute ssh bloghost --zone=us-central1-a`.
+5. Enter this command to set your working directory to the document root of the web server:
+```cd /var/www/html```
+6.  Use the  **nano**  text editor to edit  **index.php**:
+	```
+	sudo nano index.php
+	```
+7.  Use the arrow keys to move the cursor to the line that contains the  **h1**  element. Press  **Enter**  to open up a new, blank screen line, and then paste the URL you copied earlier into the line.
+8.  Paste this HTML markup immediately before the URL:
+	```
+	<img src='
+	```
+9.  Place a closing single quotation mark and a closing angle bracket at the end of the URL:
+	```
+	'>
+	```
+	The resulting line will look like this:
+	```
+	<img src='https://storage.googleapis.com/qwiklabs-gcp-0005e186fa559a09/my-excellent-blog.png'>
+	```
+	The effect of these steps is to place the line containing  `<img src='...'>`  immediately before the line containing  `<h1>...</h1>`
+
+	Do not copy the URL shown here. Instead, copy the URL shown by the Storage browser in your own Cloud Platform project.
+10.  Press  **Ctrl+O**, and then press  **Enter**  to save your edited file.
+11.  Press  **Ctrl+X**  to exit the nano text editor.
+12.  Restart the web server:
+		```
+		sudo service apache2 restart
+		```
+13.  Return to the web browser tab in which you opened your  **bloghost**  VM instance's external IP address. When you load the page, its content now includes a banner image.
